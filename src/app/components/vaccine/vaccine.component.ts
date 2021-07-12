@@ -12,14 +12,19 @@ export class VaccineComponent implements OnInit {
   rows: Avaialibility[]=[];
 
   constructor(private cowinService: CowinService){
-    cowinService.getCalenderByPin("431715","10-07-2021").subscribe((data: any)=>{
+
+    var today=new Date().toLocaleDateString().replace('/','-');
+    cowinService.getCalenderByPin("431715",today).subscribe((data: any)=>{
       console.log(data);
+      if(data != {}){
       data.centers.forEach((elem: any) => {
         elem.sessions.forEach((element:any)=>{
           this.rows.push(new Avaialibility(elem['name'],element['vaccine'],element['date'],element['available_capacity'],elem['block_name']));  
         }); 
       });
+    }
     })
+    
   }
   ngOnInit(): void {
   }
